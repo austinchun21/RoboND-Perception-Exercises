@@ -35,11 +35,14 @@ if __name__ == '__main__':
     # Disable gravity and delete the ground plane
     initial_setup()
     labeled_features = []
+    
+    model_num = 0
 
     for model_name in models:
         spawn_model(model_name)
-
-        for i in range(5):
+        print("On Model %d of %d"%(model_num,len(models)))
+        model_num += 1
+        for i in range(15):
             # make five attempts to get a valid a point cloud then give up
             sample_was_good = False
             try_count = 0
@@ -55,7 +58,7 @@ if __name__ == '__main__':
                     sample_was_good = True
 
             # Extract histogram features
-            chists = compute_color_histograms(sample_cloud, using_hsv=False)
+            chists = compute_color_histograms(sample_cloud, using_hsv=True)
             normals = get_normals(sample_cloud)
             nhists = compute_normal_histograms(normals)
             feature = np.concatenate((chists, nhists))
